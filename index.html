@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Jogo da Forca</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/forca.css">
+</head>
+<body>
+	<article id="jogo">
+		<div class="container">
+			<div class="row titulo">
+				<h1>Jogo da Forca</h1>
+			</div>
+			<div class="row letras">
+				<div class="col-1" id="0"></div>
+				<div class="col-1" id="1"></div>
+				<div class="col-1" id="2"></div>
+				<div class="col-1" id="3"></div>
+				<div class="col-1" id="4"></div>
+				<div class="col-1" id="5"></div>
+				<div class="col-1" id="6"></div>
+				<div class="col-1" id="7"></div>
+				<div class="col-1" id="8"></div>
+				<div class="col-1" id="9"></div>
+				<div class="col-1" id="10"></div>
+				<div class="col-1" id="11"></div>
+			</div>
+			<div class="row descobrir">
+				<div class="form-group">
+				    <label for="descobrir">Digite a palavra para seu amigo descobrir:</label>
+				    <div class="input-group mb-3">
+						<input type="text" id="palavra" maxlength="12" class="form-control no-outline" placeholder="Palavra" aria-label="Palavra" aria-describedby="basic-addon2">
+						<div class="input-group-append">
+						<button class="btn" type="button" id="enviarpalavra">Enviar</button>
+						</div>
+					</div>
+				 </div>
+			</div>
+		</div>
+
+		<div class="container tentativa none">
+			<div class="row">
+				<div class="form-group">
+				    <label for="tentativa">Digite a letra:</label>
+				    <div class="input-group mb-3">
+						<input type="text" id="letra" maxlength="1" class="form-control no-outline" placeholder="A" aria-label="A" aria-describedby="basic-addon2">
+						<div class="input-group-append">
+						<button class="btn" type="button" id="enviarletra">Enviar</button>
+						</div>
+					</div>
+				 </div>
+			</div>
+			<div class="row" id="resultado">
+				<p id="res">Resultado</p>
+			</div>
+			<div class="row" id="resetar">
+				<button class="btn" type="button" id="rese">Resetar</button>
+			</div>
+		</div>
+	</article>
+
+	<script src="lib/jquery/jquery.min.js"></script>
+	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+	<script>
+
+		var palavra;
+		var vet = [" "," "," "," "," "," "," "," "," "," "," "," "];
+		var i;
+		var letra;
+		var flag=0;
+		var chances=5;
+
+		$("#enviarpalavra").click(function(){
+			palavra = $("#palavra").val();
+			$(".descobrir").addClass("none");
+			$(".tentativa").removeClass("none");
+
+			for(i=0;i<palavra.length;i++){
+				vet[i] = palavra.charAt(i);
+			}
+		});
+
+		$("#enviarletra").click(function(){
+			flag = 0;
+			letra = 'a';
+			letra = $("#letra").val();
+			for(i=0;i<palavra.length;i++){
+				if(letra==vet[i]){
+					$("#res").html("Você acertou!");
+					$("#"+i).html(vet[i]);
+					flag = flag-1;
+				}else{
+					flag = flag+1;
+				}
+			}
+
+			if(flag==i){
+				
+					chances = chances - 1;
+					$("#res").html("Você errou, agora você tem "+chances +" chances.");
+					if(chances==0){
+						$("#res").html("Você perdeu!");
+						$("#enviarletra").prop("disabled",true);
+					}
+				
+			}
+
+			
+		});
+
+		$("#rese").click(function(){
+			palavra = 'a';
+			var vet = [" "," "," "," "," "," "," "," "," "," "," "," "];
+			flag = 0;
+			letra = 'a';
+			chances=5;
+			$(".descobrir").removeClass("none");
+			$(".tentativa").addClass("none");
+			$("#enviarletra").prop("disabled",false);
+			for(i=0;i<12;i++){
+				$("#res").html("Resultado");
+				$("#"+i).html(" ");
+			}
+		});
+	</script>
+</body>
+</html>
